@@ -19,3 +19,27 @@
 <regex offset="after_prematch">Image: (\.*) \s*CommandLine: \.* \s*User: (\.*) \s*LogonGuid: \S* \s*LogonId: \S* \s*TerminalSessionId: \S* \s*IntegrityLevel: \.*HashType: \S* \s*Hash: (\S*) \s*ParentProcessGuid: \S* \s*ParentProcessID: \S* \s*ParentImage: (\.*) \s*ParentCommandLine:</regex>
 <order>status,user,url,data</order>
 </decoder>
+
+
+
+<decoder name="Sysmon"> 
+  <prematch>WinEvtLog: Microsoft-Windows-Sysmon/Operational:</prematch> 
+  <regex offset="after_prematch">^\.+: (\w+)\((\d+)\): (\.+): </regex> 
+  <regex>(\.+): \.+: (\S+): </regex> 
+  <order>status, id, extra_data, user, system_name</order> 
+  <fts>name, location, user, system_name</fts> 
+</decoder> 
+
+<decoder name="Sysmon3SHA1-EventID#1"> 
+<parent>Sysmon</parent> 
+<prematch offset="after_parent">INFORMATION\(1\)</prematch> 
+<regex offset="after_prematch">Image: (\.*) \s*CommandLine: \.* \s*CurrentDirectory: \.* \s*User: (\.*) \s*LogonGuid: \S* \s*LogonId: \.* \s*TerminalSessionId: \.* \s*IntegrityLevel: \.* \s*Hashes: SHA1=(\S*) \s*ParentProcessGuid: \S* \s*ParentProcessId: \S* \s*ParentImage: (\S*) \s*ParentCommandLine: \.*</regex> 
+<order>status,user,url,data</order> 
+</decoder> 
+
+<decoder name="Sysmon3SHA1-EventID#8"> 
+<parent>Sysmon</parent> 
+<prematch offset="after_parent">INFORMATION\(8\)</prematch> 
+<regex offset="after_prematch">SourceProcessGuid: (\S*) \s*SourceProcessId: \.* \s*SourceImage: (\.*) \s*TargetProcessGuid: (\.*) \s*TargetProcessId: \S* \s*TargetImage: (\.*) \s*NewThreadId: \.*</regex> 
+<order>status,user,url,data</order> 
+</decoder> 
