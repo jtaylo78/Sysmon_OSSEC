@@ -10,6 +10,10 @@
   -  extra_data = ParentImage
   -
   - Compatible with Server 2003/2008/2012
+  
+  Other rules stopped firing so added the windows decoder before this as Brian Kellog stated here.
+
+ https://groups.google.com/forum/#!topic/security-onion/hBmJ2q5NuaY
 -->
 
 <!--<decoder name="Sysmon-EventID#1">
