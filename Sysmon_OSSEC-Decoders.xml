@@ -38,7 +38,7 @@
 <parent>Sysmon</parent> 
 <prematch offset="after_parent">INFORMATION\(1\)</prematch> 
 <regex offset="after_prematch">Image: (\.*) \s*CommandLine: \.* \s*CurrentDirectory: \.* \s*User: (\.*) \s*LogonGuid: \S* \s*LogonId: \.* \s*TerminalSessionId: \.* \s*IntegrityLevel: \.* \s*Hashes: SHA1=(\S*) \s*ParentProcessGuid: \S* \s*ParentProcessId: \S* \s*ParentImage: (\S*) \s*ParentCommandLine: \.*</regex> 
-<order>status,user,url,data</order> 
+
 </decoder> 
 
 <decoder name="Sysmon3SHA1-EventID#8"> 
@@ -47,3 +47,14 @@
 <regex offset="after_prematch">SourceProcessGuid: (\S*) \s*SourceProcessId: \.* \s*SourceImage: (\.*) \s*TargetProcessGuid: (\.*) \s*TargetProcessId: \S* \s*TargetImage: (\.*) \s*NewThreadId: \.*</regex> 
 <order>status,user,url,data</order> 
 </decoder> 
+
+<!-- NEED TO UPDATE WHEN JOSH's are pushed to OSSEC Need dstport also (CAREFUL WITH FTS)-->
+<decoder name="Sysmon-EventID3">
+ <parent>Sysmon</parent> 
+ <prematch>INFORMATION\(3\)</prematch>
+ <regex offset="after_prematch">Image:\s+(\.*) User:\s+(\.*) Protocol:\.*SourceIp:\s+(\d+.\d+.\d+.\d+)\s\.*SourcePort:\s+(\d+)\s+SourcePortName:\.*DestinationIsIpv6:\.*DestinationIp:\s+(\d+.\d+.\d+.\d+)\s+DestinationHostname:\s+</regex>
+ <order>data,user,srcip,srcport,dstip</order>
+ <fts>data,dstip</fts>
+</decoder>
+
+
